@@ -80,16 +80,17 @@ class QGen:
             keyword_sentence_mapping[k] = text_snippet
 
    
-        final_output = {}
+        final_output = {} 
+        generated_questions = {}
 
         if len(keyword_sentence_mapping.keys()) == 0:
-            return final_output
+            return generated_questions
         else:
             try:
                 generated_questions = generate_questions_mcq(keyword_sentence_mapping,self.device,self.tokenizer,self.model,self.s2v,self.normalized_levenshtein)
 
             except:
-                return final_output
+                return generated_questions
             end = time.time()
 
             final_output["statement"] = modified_text
@@ -99,7 +100,7 @@ class QGen:
             if torch.device=='cuda':
                 torch.cuda.empty_cache()
                 
-            return final_output
+            return generated_questions
     
     def predict_shortq(self, payload):
         inp = {
